@@ -1,3 +1,8 @@
+# QR Code Generator App with React-Native-Cli
+![Screenshot_1706855949](https://github.com/sairamchow5555/QRCodeGeneratorApp/assets/126855559/22988656-dee6-4cc1-8161-5f817e7bde93)
+
+![Screenshot_1706855972](https://github.com/sairamchow5555/QRCodeGeneratorApp/assets/126855559/3f06396a-b7b7-4cf7-9c79-d91532301729)
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
