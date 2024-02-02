@@ -1,118 +1,115 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState } from 'react'; 
+import { View, Text, TextInput, TouchableOpacity, 
+	Image, StyleSheet } from 'react-native'; 
+import QRCode from 'react-native-qrcode-svg'; 
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+function App() { 
+	const [qrValue, setQRValue] = useState(''); 
+	const [isActive, setIsActive] = useState(false); 
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+	const generateQRCode = () => { 
+		if (!qrValue) {
+      return;
+    };
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+		setIsActive(true); 
+	}; 
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+	const handleInputChange = (text: string) => { 
+		setQRValue(text); 
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+		if (!text) { 
+			setIsActive(false); 
+		} 
+	}; 
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+	return ( 
+		<View style={styles.container}> 
+			<View style={styles.wrapper}> 
+				<Text style={styles.title}> 
+					QR Code Generator 
+				</Text> 
+				<Text style={styles.description}> 
+					Paste a URL or enter text to create a QR code 
+				</Text> 
+				<TextInput
+					style={styles.input} 
+					placeholder="Enter Text or URL"
+					value={qrValue} 
+					onChangeText={handleInputChange} 
+				/> 
+				<TouchableOpacity 
+					style={styles.button} 
+					onPress={generateQRCode} 
+				> 
+					<Text style={styles.buttonText}> 
+						Generate QR Code 
+					</Text> 
+				</TouchableOpacity> 
+				{isActive && ( 
+					<View style={styles.qrCode}> 
+						<QRCode 
+							value={qrValue} 
+							size={200} 
+							color="black"
+							backgroundColor="white"
+						/> 
+					</View> 
+				)} 
+			</View> 
+		</View> 
+	); 
+} 
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+const styles = StyleSheet.create({ 
+	container: { 
+		flex: 1, 
+		justifyContent: 'center', 
+		alignItems: 'center', 
+		backgroundColor: '#eee', 
+	}, 
+	wrapper: { 
+		maxWidth: 300, 
+		backgroundColor: '#fff', 
+		borderRadius: 7, 
+		padding: 20, 
+		shadowColor: 'rgba(0, 0, 0, 0.1)', 
+		shadowOffset: { width: 0, height: 10 }, 
+		shadowOpacity: 1, 
+		shadowRadius: 30, 
+	}, 
+	title: { 
+		fontSize: 21, 
+		fontWeight: '500', 
+		marginBottom: 10, 
+	}, 
+	description: { 
+		color: '#575757', 
+		fontSize: 16, 
+		marginBottom: 20, 
+	}, 
+	input: { 
+		fontSize: 18, 
+		padding: 17, 
+		borderWidth: 1, 
+		borderColor: '#999', 
+		borderRadius: 5, 
+		marginBottom: 20, 
+	}, 
+	button: { 
+		backgroundColor: '#3498DB', 
+		borderRadius: 5, 
+		padding: 15, 
+		alignItems: 'center', 
+	}, 
+	buttonText: { 
+		color: '#fff', 
+		fontSize: 18, 
+	}, 
+	qrCode: { 
+		marginTop: 20, 
+		alignItems: 'center', 
+	}, 
 });
 
 export default App;
